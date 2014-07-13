@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<Root>
+<Map>
+      <LINE code="ABAAABABAAA" type="map" textureID="terrain"/>
+	  <LINE code="ABAAABABAAA" type="map" textureID="terrain"/>
+	  <LINE code="ABAAAAAAAAA" type="map" textureID="terrain"/>
+	  <LINE code="ABAAABABAAA" type="map" textureID="terrain"/>
+	  <LINE code="ABBBBBABBBA" type="map" textureID="terrain"/>
+	  <LINE code="AAAAAAAABBB" type="map" textureID="terrain"/>
+	  <LINE code="BBBBBBBABBA" type="map" textureID="terrain"/>
+	  <LINE code="BAAAAABABAA" type="map" textureID="terrain"/>
+	  <LINE code="BABABABABBA" type="map" textureID="terrain"/>
+	  <LINE code="BABABBBABBA" type="map" textureID="terrain"/>
+	  <LINE code="BBBAAAAAAAA" type="map" textureID="terrain"/>
+   </Map>
+   <Enemy>
+      <ENEMY x_coord="8" y_coord="8" currentFrame="0" currentRow="2" width="32" height="32" textureID="enemy" type="enemy" HP="300" Attack="120" Defence="140" Gold="30" Experience="50"/>
+	  <ENEMY x_coord="7" y_coord="9" currentFrame="0" currentRow="11" width="32" height="32" textureID="enemy" type="enemy" HP="500" Attack="150" Defence="170" Gold="50" Experience="70"/>
+	  <ENEMY x_coord="11" y_coord="8" currentFrame="0" currentRow="11" width="32" height="32" textureID="enemy" type="enemy" HP="500" Attack="180" Defence="170" Gold="50" Experience="70"/>
+   </Enemy>
+   <Jewel>
+      <JEWEL x_coord="8" y_coord="1" currentFrame="0" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="red"/>
+	  <JEWEL x_coord="9" y_coord="1" currentFrame="0" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="red"/>
+	  <JEWEL x_coord="10" y_coord="1" currentFrame="0" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="red"/>
+	  <JEWEL x_coord="8" y_coord="2" currentFrame="1" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="blue"/>
+	  <JEWEL x_coord="9" y_coord="2" currentFrame="1" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="blue"/>
+	  <JEWEL x_coord="10" y_coord="2" currentFrame="1" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="blue"/>
+	  <JEWEL x_coord="8" y_coord="3" currentFrame="2" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="yellow"/>
+	  <JEWEL x_coord="9" y_coord="3" currentFrame="2" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="yellow"/>
+	  <JEWEL x_coord="10" y_coord="3" currentFrame="2" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="yellow"/>
+	  <JEWEL x_coord="8" y_coord="4" currentFrame="3" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="green"/>
+	  <JEWEL x_coord="9" y_coord="4" currentFrame="3" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="green"/>
+	  <JEWEL x_coord="10" y_coord="4" currentFrame="3" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="green"/>
+   </Jewel>
+   <Medicine>
+      <MEDICINE x_coord="14" y_coord="1" currentFrame="3" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="yellow"/>
+	  <MEDICINE x_coord="15" y_coord="1" currentFrame="3" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="yellow"/>
+	  <MEDICINE x_coord="16" y_coord="1" currentFrame="3" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="yellow"/>
+	  <MEDICINE x_coord="14" y_coord="2" currentFrame="2" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="green"/>
+	  <MEDICINE x_coord="15" y_coord="2" currentFrame="2" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="green"/>
+	  <MEDICINE x_coord="16" y_coord="2" currentFrame="2" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="green"/>
+	  <MEDICINE x_coord="14" y_coord="3" currentFrame="1" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="blue"/>
+	  <MEDICINE x_coord="15" y_coord="3" currentFrame="1" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="blue"/>
+	  <MEDICINE x_coord="16" y_coord="3" currentFrame="1" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="blue"/>
+	  <MEDICINE x_coord="14" y_coord="4" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="15" y_coord="4" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="16" y_coord="4" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+   </Medicine>
+   <Weapon>
+      <WEAPON x_coord="7" y_coord="10" currentFrame="2" currentRow="12" width="32" height="32" textureID="item" type="weapon" attribute="attack" number="70"/>
+	  <WEAPON x_coord="11" y_coord="9" currentFrame="1" currentRow="14" width="32" height="32" textureID="item" type="weapon" attribute="defence" number="60"/>
+	  <WEAPON x_coord="16" y_coord="5" currentFrame="0" currentRow="13" width="32" height="32" textureID="item" type="weapon" attribute="attack" number="100"/>
+   </Weapon>
+   <Door>
+      <DOOR x_coord="9" y_coord="3" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="7" y_coord="5" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="7" y_coord="8" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="11" y_coord="6" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="11" y_coord="9" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="15" y_coord="9" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+   </Door>
+   <Door>
+      <DOOR x_coord="11" y_coord="3" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="13" y_coord="3" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="7" y_coord="8" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="10" y_coord="8" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="12" y_coord="11" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="12" y_coord="5" currentFrame="3" currentRow="0" width="32" height="32" textureID="door" type="door" color="green"/>
+   </Door>
+   <Stair>
+      <STAIR x_coord="15" y_coord="8" currentFrame="0" currentRow="0" width="32" height="32" textureID="up" type="stair"/>
+	  <STAIR x_coord="6" y_coord="1" currentFrame="0" currentRow="0" width="32" height="32" textureID="down" type="stair"/>
+   </Stair>
+</Root>
