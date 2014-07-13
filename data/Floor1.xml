@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<Root>
+   <Background>
+      <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+	  <LINE code="CCCCCCCCCCCCCCCCCC" type="map" textureID="background"/>
+   </Background>
+   <Map>
+      <LINE code="AAAAAAAAAAA" type="map" textureID="terrain"/>
+	  <LINE code="BBBBBBBBBBA" type="map" textureID="terrain"/>
+	  <LINE code="AAAAABAAABA" type="map" textureID="terrain"/>
+	  <LINE code="AAABABAAABA" type="map" textureID="terrain"/>
+	  <LINE code="BABBABBBABA" type="map" textureID="terrain"/>
+	  <LINE code="AAABAAAAABA" type="map" textureID="terrain"/>
+	  <LINE code="AAABABBBBBA" type="map" textureID="terrain"/>
+	  <LINE code="BABBAAAAAAA" type="map" textureID="terrain"/>
+	  <LINE code="AAABBABBBAB" type="map" textureID="terrain"/>
+	  <LINE code="AAABAAABAAA" type="map" textureID="terrain"/>
+	  <LINE code="AAABAAABAAA" type="map" textureID="terrain"/>
+   </Map>
+   <Key>
+      <KEY x_coord="10" y_coord="10" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+      <KEY x_coord="8" y_coord="1" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="6" y_coord="4" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="6" y_coord="6" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="8" y_coord="10" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="8" y_coord="11" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="13" y_coord="3" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="13" y_coord="4" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="14" y_coord="10" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="14" y_coord="11" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="15" y_coord="11" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="16" y_coord="11" currentFrame="0" currentRow="4" width="32" height="32" textureID="item" type="key" color="yellow"/>
+	  <KEY x_coord="8" y_coord="7" currentFrame="1" currentRow="4" width="32" height="32" textureID="item" type="key" color="blue"/>
+	  <KEY x_coord="16" y_coord="10" currentFrame="1" currentRow="4" width="32" height="32" textureID="item" type="key" color="blue"/>
+   </Key>
+   <Enemy>
+      <ENEMY x_coord="8" y_coord="3" currentFrame="0" currentRow="0" width="32" height="32" textureID="enemy" type="enemy" HP="80" Attack="7" Defence="5" Gold="4" Experience="10"/>
+	  <ENEMY x_coord="7" y_coord="4" currentFrame="0" currentRow="0" width="32" height="32" textureID="enemy" type="enemy" HP="80" Attack="7" Defence="5" Gold="4" Experience="10"/>
+	  <ENEMY x_coord="7" y_coord="6" currentFrame="0" currentRow="1" width="32" height="32" textureID="enemy" type="enemy" HP="70" Attack="25" Defence="30" Gold="5" Experience="15"/>
+	  <ENEMY x_coord="7" y_coord="9" currentFrame="0" currentRow="1" width="32" height="32" textureID="enemy" type="enemy" HP="70" Attack="25" Defence="30" Gold="5" Experience="15"/>
+	  <ENEMY x_coord="9" y_coord="1" currentFrame="0" currentRow="8" width="32" height="32" textureID="enemy" type="enemy" HP="20" Attack="3" Defence="3" Gold="1" Experience="3"/>
+	  <ENEMY x_coord="11" y_coord="1" currentFrame="0" currentRow="8" width="32" height="32" textureID="enemy" type="enemy" HP="20" Attack="3" Defence="3" Gold="1" Experience="3"/>
+	  <ENEMY x_coord="13" y_coord="6" currentFrame="0" currentRow="8" width="32" height="32" textureID="enemy" type="enemy" HP="20" Attack="3" Defence="3" Gold="1" Experience="3"/>
+	  <ENEMY x_coord="10" y_coord="1" currentFrame="0" currentRow="9" width="32" height="32" textureID="enemy" type="enemy" HP="30" Attack="4" Defence="4" Gold="2" Experience="4"/>
+	  <ENEMY x_coord="12" y_coord="6" currentFrame="0" currentRow="12" width="32" height="32" textureID="enemy" type="enemy" HP="20" Attack="5" Defence="5" Gold="3" Experience="5"/>
+	  <ENEMY x_coord="14" y_coord="5" currentFrame="0" currentRow="10" width="32" height="32" textureID="enemy" type="enemy" HP="10" Attack="5" Defence="5" Gold="3" Experience="5"/>
+	  <ENEMY x_coord="14" y_coord="6" currentFrame="0" currentRow="4" width="32" height="32" textureID="enemy" type="enemy"  HP="30" Attack="5" Defence="5" Gold="3" Experience="5"/>
+	  <ENEMY x_coord="15" y_coord="10" currentFrame="0" currentRow="16" width="32" height="32" textureID="enemy" type="enemy" HP="90" Attack="50" Defence="60" Gold="10" Experience="35"/>
+   </Enemy>
+   <Jewel>
+      <JEWEL x_coord="8" y_coord="4" currentFrame="0" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="red"/>
+	  <JEWEL x_coord="6" y_coord="7" currentFrame="1" currentRow="0" width="32" height="32" textureID="item" type="jewel" color="blue"/>
+   </Jewel>
+   <Medicine>
+      <MEDICINE x_coord="6" y_coord="3" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="6" y_coord="10" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="6" y_coord="11" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="12" y_coord="3" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="12" y_coord="4" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="14" y_coord="3" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="14" y_coord="4" currentFrame="0" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="red"/>
+	  <MEDICINE x_coord="7" y_coord="10" currentFrame="1" currentRow="1" width="32" height="32" textureID="item" type="medicine" color="blue"/>
+   </Medicine>
+   <Weapon>
+      <WEAPON x_coord="7" y_coord="11" currentFrame="2" currentRow="10" width="32" height="32" textureID="item" type="weapon" attribute="check"/>
+   </Weapon>
+   <Door>
+      <DOOR x_coord="9" y_coord="3" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="7" y_coord="5" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="7" y_coord="8" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="11" y_coord="6" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="11" y_coord="9" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+	  <DOOR x_coord="15" y_coord="9" currentFrame="0" currentRow="0" width="32" height="32" textureID="door" type="door" color="yellow"/>
+   </Door>
+   <Stair>
+      <STAIR x_coord="6" y_coord="1" currentFrame="0" currentRow="0" width="32" height="32" textureID="up" type="stair"/>
+   </Stair>
+</Root>
