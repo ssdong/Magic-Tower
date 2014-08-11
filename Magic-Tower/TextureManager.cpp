@@ -34,6 +34,12 @@
 #include "Floor.h"
 using namespace std;
 
+static const SDL_Color DARKYELLOW = {255,156,0};
+static const SDL_Color YELLOW     = {255,255,0};
+static const SDL_Color RED        = {255,0,60};
+static const SDL_Color GREEN      = {0,255,0};
+static const SDL_Color BLUE      =  {0,131,255};
+
 textureManager* textureManager::instan = nullptr;
 
 textureManager::textureManager(){}
@@ -296,33 +302,40 @@ void textureManager::drawMessage(std::string messageType, int position, std::vec
 	                                   floor->render();
 	                                   player->draw();
 									   drawStatus("hero","item",player,renderer,font);
-									   SDL_Color white = { 255, 255, 255 };
+									   SDL_Color color;
 	                                   SDL_Surface* level;
 	                                   SDL_Texture* texture_Level;
 	                                   SDL_Rect destRect;
 									   string total;
 									   if(messageType == "key"){
 									       if((*things)[position]->getColor() == "yellow") {
+											       color = DARKYELLOW ;
 		                                           total = "A yellow key gained.";
 									       }
 									       else if((*things)[position]->getColor() == "red") {
+											       color = RED;
 										           total = "A red key gained.";
 									       } 
 									       else {
+											       color = BLUE;
 										           total = "A blue key gained.";
 									       }
 									   }
 									   else if(messageType == "medicine") {
 										   if((*things)[position]->getColor() == "red") {
+											       color = RED;
 										           total = "50 HP recover.";
 									       } 
 										   else if((*things)[position]->getColor() == "blue") {
+											       color = BLUE;
 										           total = "100 HP recover.";
 									       } 
 										   else if((*things)[position]->getColor() == "green") {
+											       color = GREEN;
 										           total = "150 HP recover.";
 									       } 
 										   else if((*things)[position]->getColor() == "yellow") {
+											       color = YELLOW;
 										           total = "200 HP recover.";
 									       }
 										   else {
@@ -331,21 +344,25 @@ void textureManager::drawMessage(std::string messageType, int position, std::vec
 									   }
 									   else {
 										   if((*things)[position]->getColor() == "red") {
+											       color = RED;
 										           total = "3 points of attack increased.";
 									       } 
 										   else if((*things)[position]->getColor() == "blue") {
+											       color = BLUE;
 										           total = "2 points of defence increased.";
 									       } 
 										   else if((*things)[position]->getColor() == "green") {
+                                                   color = GREEN;
 										           total = "7 points of attack increased.";
 									       } 
 										   else if((*things)[position]->getColor() == "yellow") {
+											       color = YELLOW;
 										           total = "5 points of defence increased.";
 									       } 
 										   else {
 										   }
 									   }
-									   level = TTF_RenderText_Solid(font,total.c_str(),white); 
+									   level = TTF_RenderText_Solid(font,total.c_str(),color); 
 		                               texture_Level = SDL_CreateTextureFromSurface(renderer,level);
 		                               destRect.x = 150;
 	                                   destRect.y = 450;
