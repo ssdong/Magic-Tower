@@ -40,6 +40,9 @@ static const SDL_Color RED        = {255,0,60};
 static const SDL_Color GREEN      = {0,255,0};
 static const SDL_Color BLUE      =  {0,131,255};
 
+/////
+
+
 textureManager* textureManager::instan = nullptr;
 
 textureManager::textureManager(){}
