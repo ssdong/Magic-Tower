@@ -13,6 +13,7 @@ private:
 	int defence;
 	int gold;
 	int experience;
+
 public:
 	Enemy();
 	virtual ~Enemy();

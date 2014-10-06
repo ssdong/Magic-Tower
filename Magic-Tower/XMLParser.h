@@ -8,12 +8,16 @@ class SDLGameObject;
 
 class Parser {
 public:
-	static bool parseState(const char* stateFile, std::string stateID,
-                    std::vector<SDLGameObject*> *pObjects, std::vector<std::vector<SDLGameObject*> > *mObjects);
+	static bool parseState( const char* stateFile, 
+		                    std::string stateID,
+                            std::vector<SDLGameObject*> *pObjects, 
+						    std::vector<std::vector<SDLGameObject*> > *mObjects );
 
 private:
-	static void parseObjects(TiXmlElement* pStateRoot, std::string stateID,
-                      std::vector<SDLGameObject*> *pObjects, std::vector<std::vector<SDLGameObject*> > *mObjects);
+	static void parseObjects( TiXmlElement* pStateRoot, 
+		                      std::string stateID,
+                              std::vector<SDLGameObject*> *pObjects, 
+                              std::vector<std::vector<SDLGameObject*> > *mObjects );
 };
 
 

@@ -6,6 +6,10 @@
 
 class LoaderParams;
 
+/*
+    There are currently 2 kinds of tiles(Wall and Path)
+*/
+
 class Tile : public SDLGameObject {
 public:
 	Tile();
@@ -17,6 +21,7 @@ public:
 	void setFrame(int newFrame);
 	void setRow(int newRow);
 
+	// tile type (wall or path)
 	char type;
 };
 

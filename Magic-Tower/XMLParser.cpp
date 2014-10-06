@@ -1,25 +1,11 @@
-/* 
-   XMLParser.cpp and XMLParser.h
-
-   Copyright (C) 2014   Susu Dong
+/* Copyright (C) 2014   Susu Dong
    This source code is provided 'as-is', without any express or implied
    warranty. In no event will the author be held liable for any damages
    arising from the use of this software.
 
    Permission is granted to anyone to use this software for any purpose,
    including commercial applications, and to alter it and redistribute it
-   freely, subject to the following restrictions:
-
-   1. The origin of this source code must not be misrepresented; you must not
-      claim that you wrote the original source code. If you use this source code
-      in a product, an acknowledgment in the product documentation would be
-      appreciated but is not required.
-
-   2. Altered source versions must be plainly marked as such, and must not be
-      misrepresented as being the original source code.
-
-   3. This notice may not be removed or altered from any source distribution.
-
+   freely.
 */
 
 #include "XMLParser.h"
@@ -32,7 +18,8 @@
 #include "Weapon.h"
 using namespace std;
 
-bool Parser::parseState(const char* stateFile, std::string stateID,
+bool Parser::parseState(const char* stateFile, 
+	                    std::string stateID,
                         std::vector<SDLGameObject*> *pObjects, 
 						std::vector<std::vector<SDLGameObject*> > *mObjects) {
      // First, Create XML document
@@ -86,14 +73,15 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 			std::vector<SDLGameObject*> temp;
             // Create the corresponding tiles and store it in the vector
 			for(int j = 0; j < m_lineID.size(); j++) {
+				    // Create corresponding objects. Now we should have tiles 
 					SDLGameObject* instance = GameObjectFactory::Instance()->create(e->Attribute("type"));
-					if(m_lineID[j] == 'A') {
+					if(m_lineID[j] == 'A') { // A represents wall
 					    LoaderParams* newLoader = new LoaderParams((192+j*32),(32+i*32),32,32,0,0,m_textureID);
 						instance->load(newLoader);
 						dynamic_cast<Tile*>(instance)->type = 'A';
 					    delete newLoader;
 					}
-					else if(m_lineID[j] == 'B'){
+					else if(m_lineID[j] == 'B'){ // B represents path
 						LoaderParams* newLoader = new LoaderParams((192+j*32),(32+i*32),32,32,1,0,m_textureID);
 						instance->load(newLoader);
 						dynamic_cast<Tile*>(instance)->type = 'B';
@@ -112,6 +100,7 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 		}
 	}
 	else {
+		// Now we are parsing enemy, jewels, medicin ....
 		for(TiXmlElement* e = pStateRoot->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
 		 int m_x, m_y, m_width, m_height, m_currentFrame, m_currentRow, HP, Attack, Defence, Gold, Experience, number;
          std::string m_textureID;
@@ -129,6 +118,7 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 		 m_textureID = e->Attribute("textureID");
 
 		 if(stateID == "Medicine" || stateID == "Door" || stateID == "Key" || stateID == "Jewel") {
+			 // These items have attr "color"
 			 m_color = e->Attribute("color");
 		 }
 		 // Create the corresponding objects and store it in the vector
@@ -138,14 +128,17 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 		 if(stateID == "Weapon") {
 			 m_attribute = e->Attribute("attribute");
 			 if(m_attribute == "attack") {
+				 // This is an attack weapon
 				 dynamic_cast<Weapon*>(instance)->type = 'A';
 				 e->Attribute("number", &number);
 				 dynamic_cast<Weapon*>(instance)->num = number;
 			 }
 			 else if(m_attribute == "check") {
+				 // This is a weapon for assistance other than attacking or defending
 				 // TODO
 			 }
 			 else {
+				 // This is a defence weapon
 				 dynamic_cast<Weapon*>(instance)->type = 'D';
 				 e->Attribute("number", &number);
 				 dynamic_cast<Weapon*>(instance)->num = number;
@@ -168,9 +161,11 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 		 }
 		 if(stateID == "Stair") {
 			 if(m_textureID == "up") {
+				 // Upstairs
 				 dynamic_cast<Stair*>(instance)->type = 'U';
 			 }
 			 else {
+				 // Downstairs
 				 dynamic_cast<Stair*>(instance)->type = 'D';
 			 }
 		 }

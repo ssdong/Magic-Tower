@@ -1,25 +1,11 @@
-/* 
-   CollisionDetector.cpp and CollisionDetector.h
-
-   Copyright (C) 2014   Susu Dong
+/* Copyright (C) 2014   Susu Dong
    This source code is provided 'as-is', without any express or implied
    warranty. In no event will the author be held liable for any damages
    arising from the use of this software.
 
    Permission is granted to anyone to use this software for any purpose,
    including commercial applications, and to alter it and redistribute it
-   freely, subject to the following restrictions:
-
-   1. The origin of this source code must not be misrepresented; you must not
-      claim that you wrote the original source code. If you use this source code
-      in a product, an acknowledgment in the product documentation would be
-      appreciated but is not required.
-
-   2. Altered source versions must be plainly marked as such, and must not be
-      misrepresented as being the original source code.
-
-   3. This notice may not be removed or altered from any source distribution.
-
+   freely.
 */
 
 #include "CollisionDetecter.h"
@@ -37,6 +23,7 @@ Collision::Collision() {}
 
 Collision::~Collision() {}
 
+// Singleton collison detector! 
 Collision* Collision::Instance() {
 	if(instance == nullptr) {
 		instance = new Collision();
@@ -44,7 +31,13 @@ Collision* Collision::Instance() {
 	return instance;
 }
 
-bool Collision::detectKey(std::vector<SDLGameObject* >* keys, SDLGameObject* player, char direction, int offset, int& position) {
+
+bool Collision::detectKey(std::vector<SDLGameObject* >* keys, 
+	                      SDLGameObject* player, 
+						  char direction, 
+						  int offset, 
+						  int& position) {
+	// Get the new position of player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -59,7 +52,10 @@ bool Collision::detectKey(std::vector<SDLGameObject* >* keys, SDLGameObject* pla
 	else {
 		x += offset;
 	}
+	// Now we iterate through the keys array to detect which key the player is trying to pick up
+	// Should use a quadtree when the map is getting large.
 	for(int i = 0; i < keys->size(); i++) {
+		// Check if the key has already been picked by checking "nullptr"
 		if((*keys)[i] != nullptr && (*keys)[i]->getX() == x && (*keys)[i]->getY() == y) {
 			// Collision!
 			if((*keys)[i]->getColor() == "yellow") {
@@ -68,9 +64,13 @@ bool Collision::detectKey(std::vector<SDLGameObject* >* keys, SDLGameObject* pla
 			else if((*keys)[i]->getColor() == "red") {
 				dynamic_cast<Player*>(player)->setRedKey(1);
 			}
-			else {
+			else if((*keys)[i]->getColor() == "blue"){
 				dynamic_cast<Player*>(player)->setBlueKey(1);
 			}
+			else {
+				// TODO; add more colors if possible
+			}
+			// Store the position of the key in the vector to be used later
 			position = i;
 			return true;
 		}
@@ -78,7 +78,13 @@ bool Collision::detectKey(std::vector<SDLGameObject* >* keys, SDLGameObject* pla
 	return false;
 }
 
-bool Collision::detectJewel(std::vector<SDLGameObject* >* jewels, SDLGameObject* player, char direction, int offset, int& position) {
+
+bool Collision::detectJewel(std::vector<SDLGameObject* >* jewels, 
+	                        SDLGameObject* player, 
+							char direction, 
+							int offset, 
+							int& position) {
+	// Get the new position of the player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -94,6 +100,7 @@ bool Collision::detectJewel(std::vector<SDLGameObject* >* jewels, SDLGameObject*
 		x += offset;
 	}
 	for(int i = 0; i < jewels->size(); i++) {
+		// Check if the jewel has already been picked by checking "nullptr"
 		if((*jewels)[i] != nullptr && (*jewels)[i]->getX() == x && (*jewels)[i]->getY() == y) {
 			// Collision!
 			if((*jewels)[i]->getColor() == "red") {
@@ -109,8 +116,9 @@ bool Collision::detectJewel(std::vector<SDLGameObject* >* jewels, SDLGameObject*
 				dynamic_cast<Player*>(player)->setDefence(5);
 			}
 			else {
-
+				// TODO; add more colors if possible
 			}
+			// Store the position of the key in the vector to be used later
 			position = i;
 			return true;
 		}
@@ -118,7 +126,13 @@ bool Collision::detectJewel(std::vector<SDLGameObject* >* jewels, SDLGameObject*
 	return false;
 }
 
-bool Collision::detectMedicine(std::vector<SDLGameObject* >* medicines, SDLGameObject* player, char direction, int offset, int& position) {
+
+bool Collision::detectMedicine(std::vector<SDLGameObject* >* medicines, 
+	                           SDLGameObject* player, 
+							   char direction, 
+							   int offset, 
+							   int& position) {
+	// Get the new position of the player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -134,6 +148,7 @@ bool Collision::detectMedicine(std::vector<SDLGameObject* >* medicines, SDLGameO
 		x += offset;
 	}
 	for(int i = 0; i < medicines->size(); i++) {
+		// Check if the medicine has already been picked by checking "nullptr"
 		if((*medicines)[i] != nullptr && (*medicines)[i]->getX() == x && (*medicines)[i]->getY() == y) {
 			// Collision!
 			if((*medicines)[i]->getColor() == "red") {
@@ -149,7 +164,9 @@ bool Collision::detectMedicine(std::vector<SDLGameObject* >* medicines, SDLGameO
 				dynamic_cast<Player*>(player)->setHP(150);
 			}
 			else {
+				// TODO; add more colors if possible
 			}
+			// Store the position of the key in the vector to be used later
 			position = i;
 			return true;
 		}
@@ -157,7 +174,13 @@ bool Collision::detectMedicine(std::vector<SDLGameObject* >* medicines, SDLGameO
 	return false;
 }
 
-bool Collision::detectDoorExist(std::vector<SDLGameObject* >* doors, SDLGameObject* player, char direction, int offset, int& position) {
+
+bool Collision::detectDoorExist(std::vector<SDLGameObject* >* doors, 
+	                            SDLGameObject* player, 
+								char direction, 
+								int offset, 
+								int& position) {
+	// Get the position of the player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -174,6 +197,7 @@ bool Collision::detectDoorExist(std::vector<SDLGameObject* >* doors, SDLGameObje
 	}
 	for(int i = 0; i < doors->size(); i++) {
 		if((*doors)[i] != nullptr && (*doors)[i]->getX() == x && (*doors)[i]->getY() == y) {
+			// Store the position of the door which is being collided with the player
 			position = i;
 			return true;
 		} 
@@ -181,69 +205,92 @@ bool Collision::detectDoorExist(std::vector<SDLGameObject* >* doors, SDLGameObje
 	return false;
 }
 
-bool Collision::detectDoor(std::vector<SDLGameObject* >* doors, SDLGameObject* player, char direction, int offset, int position) {
+
+bool Collision::detectDoor(std::vector<SDLGameObject* >* doors, 
+	                       SDLGameObject* player, 
+						   char direction, 
+						   int offset, 
+						   int position) {
     if((*doors)[position]->getColor() == "yellow") {
+		// If the player trys to open a yellow door...
 		if(dynamic_cast<Player*>(player)->getYellowKey() == 0) {
 			return true;
 		}
 		if((*doors)[position]->getRow() == 3) {
+		    // Now the door has finished opening with an animation
 			dynamic_cast<Player*>(player)->setYellowKey(-1);
 			delete (*doors)[position];
 			(*doors)[position] = nullptr;
 			return true;
 		}
 		else {
+		    // Not finished yet
 			(*doors)[position]->update();
 			return false;
 		}
 	}
 	else if((*doors)[position]->getColor() == "red") {
+		// If the player trys to open a red door...
 		if(dynamic_cast<Player*>(player)->getRedKey() == 0) {
 			return true;
 		}
 		if((*doors)[position]->getRow() == 3) {
+		    // Now the door has finished opening with an animation
 			dynamic_cast<Player*>(player)->setRedKey(-1);
 			delete (*doors)[position];
 			(*doors)[position] = nullptr;
 			return true;
 		}
 		else {
+		    // Not finished yet
 			(*doors)[position]->update();
 			return false;
 		}
 	}
 	else if((*doors)[position]->getColor() == "green") {
+		// If the player trys to open a green door...
 		if(!dynamic_cast<Player*>(player)->getGreenDoor()) {
 			return true;
 		}
 		if((*doors)[position]->getRow() == 3) {
+			// Now the door has finished opening with an animation
 			delete (*doors)[position];
 			(*doors)[position] = nullptr;
 			return true;
 		}
 		else {
+		    // Not finished yet
 			(*doors)[position]->update();
 			return false;
 		}
 	}
 	else {
+		// If the player trys to open a blue door...
 		if(dynamic_cast<Player*>(player)->getBlueKey() == 0) {
 			return true;
 		}
 		if((*doors)[position]->getRow() == 3) {
+		    // Now the door has finished opening with an animation
 			dynamic_cast<Player*>(player)->setBlueKey(-1);
 			delete (*doors)[position];
 			(*doors)[position] = nullptr;
 			return true;
 		}
 		else {
+		    // Not finished yet
 			(*doors)[position]->update();
 			return false;
 		}
 	}
 }
 
-bool Collision::detectEnemyExist(std::vector<SDLGameObject* >* enemies, SDLGameObject* player, char direction, int offset, int& position) {
+
+bool Collision::detectEnemyExist(std::vector<SDLGameObject* >* enemies, 
+	                             SDLGameObject* player, 
+								 char direction, 
+								 int offset, 
+								 int& position) {
+	// Get the position of the player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -260,6 +307,7 @@ bool Collision::detectEnemyExist(std::vector<SDLGameObject* >* enemies, SDLGameO
 	}
 	for(int i = 0; i < enemies->size(); i++) {
 		if((*enemies)[i] != nullptr && (*enemies)[i]->getX() == x && (*enemies)[i]->getY() == y) {
+			// Store the position of the enemy which is being collided with the player
 			position = i;
 			return true;
 		} 
@@ -267,21 +315,28 @@ bool Collision::detectEnemyExist(std::vector<SDLGameObject* >* enemies, SDLGameO
 	return false;
 }
 
-bool Collision::detectCanFightWithEnemy(std::vector<SDLGameObject* >* enemies, SDLGameObject* player, char direction, int offset, int position) {
+
+bool Collision::detectCanFightWithEnemy(std::vector<SDLGameObject* >* enemies, 
+	                                    SDLGameObject* player, 
+										char direction, 
+										int offset, 
+										int position) {
 	int PlayerHP = dynamic_cast<Player*>(player)->getHP();
 	int PlayerAttack = dynamic_cast<Player*>(player)->getAttack();
 	int PlayerDefence = dynamic_cast<Player*>(player)->getDefence();
 	int EnemyHP = dynamic_cast<Enemy*>((*enemies)[position])->getHP();
 	int EnemyAttack = dynamic_cast<Enemy*>((*enemies)[position])->getAttack();
 	int EnemyDefence = dynamic_cast<Enemy*>((*enemies)[position])->getDefence();
+	// Can not defeat the enemy if the player has a lower attach than the enemy's defence
 	if(PlayerAttack < EnemyDefence) {
 		return false;
 	}
 	int P_E_damage = (100.0 / (100 + EnemyDefence)) * PlayerAttack;
 	int E_P_damage = (100.0 / (100 + PlayerDefence)) * EnemyAttack;
+	// Keep fighting until one arises, the other falls...
 	while(true) {
 		EnemyHP -= P_E_damage;
-		if(EnemyHP <= 0) {
+		if(EnemyHP <= 0) { 
 			return true;
 		}
 		PlayerHP -= E_P_damage;
@@ -291,24 +346,43 @@ bool Collision::detectCanFightWithEnemy(std::vector<SDLGameObject* >* enemies, S
 	}
 }
 
-bool Collision::fight(std::vector<SDLGameObject* >* enemies, SDLGameObject* player, char direction, int offset, int position,SDL_Renderer* pRenderer, TTF_Font* font,
-	                  int &playerHP, int &enemyHP, int P_E_damage, int E_P_damage, unsigned int &lastTime) {
+
+// TODO; This function needs to be updated
+bool Collision::fight(std::vector<SDLGameObject* >* enemies, 
+	                  SDLGameObject* player, 
+					  char direction, 
+					  int offset, 
+					  int position,
+					  SDL_Renderer* pRenderer, 
+					  TTF_Font* font,
+	                  int &playerHP, 
+					  int &enemyHP, 
+					  int P_E_damage, 
+					  int E_P_damage, 
+					  unsigned int &lastTime) {
 	 unsigned int currentTime = SDL_GetTicks();
+	 // Each message during the fight lasts for 0.2 s
 	 if(currentTime > lastTime + 200) {
 		 enemyHP -= P_E_damage;
 		 playerHP -= E_P_damage;
 		 if(enemyHP <= 0) {
 			 return true;
 		 }
+         // Enemy still alive, keep fight!
 		 lastTime = currentTime;
 		 return false;
 	 }
-	 else {
+	 else { // 0.2 s period over. Update the message!
 		 return false;
 	 }
 }
 
-bool Collision::detectWall(std::vector<std::vector<SDLGameObject*> > *map, SDLGameObject* player, char direction, int offset) {
+
+bool Collision::detectWall(std::vector<std::vector<SDLGameObject*> > *map, 
+	                       SDLGameObject* player, 
+						   char direction, 
+						   int offset) {
+	// Get the new position of the player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -323,20 +397,27 @@ bool Collision::detectWall(std::vector<std::vector<SDLGameObject*> > *map, SDLGa
 	else {
 		x += offset;
 	}
+	// Iterate through the 2D vectors of walls
 	for(std::vector<std::vector<SDLGameObject*> >::iterator i = map->begin(); i != map->end(); ++i) {
 		for(std::vector<SDLGameObject*>::iterator j = (*i).begin(); j != (*i).end(); ++j) {
 			if((*j)->getX() == x && (*j)->getY() == y) {
+				// Collision!
 				if(dynamic_cast<Tile*>(*j)->type == 'B') {
 					return true;
 				}
 			}
 		}
 	}
-
 	return false;
 }
 
-bool Collision::detectStair(std::vector<SDLGameObject* >* stairs, SDLGameObject* player, char direction, int offset, char& stairType) {
+
+bool Collision::detectStair(std::vector<SDLGameObject* >* stairs, 
+	                        SDLGameObject* player, 
+							char direction, 
+							int offset, 
+							char& stairType) {
+	// Get the new position of the player
 	int x = player->getX();
 	int y = player->getY();
 	if(direction == 'N') {
@@ -353,6 +434,7 @@ bool Collision::detectStair(std::vector<SDLGameObject* >* stairs, SDLGameObject*
 	}
 	for(std::vector<SDLGameObject*>::iterator i = stairs->begin(); i != stairs->end(); ++i) {
 		if((*i)->getX() == x && (*i)->getY() == y) {
+			// Collision!
 			stairType = dynamic_cast<Stair*>(*i)->type;
 			return true;
 		}

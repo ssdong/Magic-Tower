@@ -18,6 +18,7 @@ private:
 	int redKey;
 	int blueKey;
 	bool canOpenGreenDoor;
+
 public:
 	Player(/*int level = 1, int HP = 1000, int Attack = 10, int Defence = 10, int gold = 0, int experience = 0, int yellow = 0
 		   , int red = 0, int blue = 0*/);

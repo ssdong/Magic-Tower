@@ -6,6 +6,10 @@
 
 class LoaderParams;
 
+/*
+   There are currently 6 kinds of jewels
+*/
+
 class Jewel : public SDLGameObject {
 public:
 	Jewel();

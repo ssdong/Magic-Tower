@@ -18,6 +18,7 @@ public:
 	bool registerType(std::string typeID, BaseCreator* creator);
 	SDLGameObject* create(std::string typeID);
 	~GameObjectFactory();
+
 private:
 	static GameObjectFactory* instance;
 	GameObjectFactory();

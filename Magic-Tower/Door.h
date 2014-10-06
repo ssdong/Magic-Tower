@@ -4,6 +4,10 @@
 #include "SDLGameObject.h"
 #include "GameObjectFactory.h"
 
+/* 
+   There are currently 3 kinds of doors
+*/
+
 class LoaderParams;
 
 class Door : public SDLGameObject {

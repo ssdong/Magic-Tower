@@ -27,6 +27,7 @@ public:
 	virtual int getY();
 	virtual int getRow();
 	virtual int getFrame();
+
 protected:
     int m_x;
 	int m_y;

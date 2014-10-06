@@ -6,6 +6,10 @@
 
 class LoaderParams;
 
+/*
+   There are currently 3 kinds of keys
+*/
+
 class Key : public SDLGameObject {
 public:
 	Key();

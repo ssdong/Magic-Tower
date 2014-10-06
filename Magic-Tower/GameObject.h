@@ -9,11 +9,11 @@ public:
 	virtual void draw() = 0; 
 	virtual void update() = 0;
 	virtual void clean() = 0;
-// new load function
+    // new load function
 	virtual void load(const LoaderParams * param) = 0;
 
 protected: // Changed here
-	GameObject(/*const LoaderParams* param*/);
+	GameObject();
 	virtual ~GameObject();
 };
 

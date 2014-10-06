@@ -1,25 +1,11 @@
-/* 
-   Player.cpp and Player.h
-
-   Copyright (C) 2014   Susu Dong
+/* Copyright (C) 2014   Susu Dong
    This source code is provided 'as-is', without any express or implied
    warranty. In no event will the author be held liable for any damages
    arising from the use of this software.
 
    Permission is granted to anyone to use this software for any purpose,
    including commercial applications, and to alter it and redistribute it
-   freely, subject to the following restrictions:
-
-   1. The origin of this source code must not be misrepresented; you must not
-      claim that you wrote the original source code. If you use this source code
-      in a product, an acknowledgment in the product documentation would be
-      appreciated but is not required.
-
-   2. Altered source versions must be plainly marked as such, and must not be
-      misrepresented as being the original source code.
-
-   3. This notice may not be removed or altered from any source distribution.
-
+   freely.
 */
 #include "Player.h"
 #include "SDL.h"
@@ -94,11 +80,13 @@ void Player::setY(int y) { m_y = y; }
 
 void Player::setGreenDoor() { canOpenGreenDoor = true; }
 
+// Update player's level
 bool Player::setLevel(int level) {
 	this->level = level;
 	return true;
 }
 
+// Update player's HP
 bool Player::setHP(int hp) {
      if(HP + hp < 0) {
 		 return false;
@@ -107,6 +95,7 @@ bool Player::setHP(int hp) {
 	 return true;
 }
 
+// Update player attack after consuming jewels
 bool Player::setAttack(int attack) {
 	if(this->attack + attack < 0) {
 		return false;
@@ -115,6 +104,7 @@ bool Player::setAttack(int attack) {
 	return true;
 }
 
+// Update player defence after consuming jewels
 bool Player::setDefence(int defence) {
 	if(this->defence + defence < 0) {
 		return false;
@@ -123,6 +113,7 @@ bool Player::setDefence(int defence) {
 	return true;
 }
 
+// Update player's gold after defeating enemies
 bool Player::setGold(int gold) {
 	if(this->gold + gold < 0) {
 		return false;
@@ -131,6 +122,7 @@ bool Player::setGold(int gold) {
 	return true;
 }
 
+// Update player's experience after defeating enemies
 bool Player::setExperience(int experience) {
 	if(this->experience + experience < 0) {
 		return false;
@@ -162,6 +154,8 @@ bool Player::setBlueKey(int key) {
 	this->blueKey += key;
 	return true;
 }
+
+// Player Creator!
 SDLGameObject* PlayerCreator::createGameObject() const{
       return new Player();
 }

@@ -6,6 +6,10 @@
 
 class LoaderParams;
 
+/*
+    There are currently 2 kinds of medicines
+*/
+
 class Medicine : public SDLGameObject {
 public:
 	Medicine();

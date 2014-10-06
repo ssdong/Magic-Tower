@@ -10,6 +10,8 @@ class SDLGameObject;
 class Player;
 class Floor;
 
+// The container of this game !
+
 class Game {
 public:
 	~Game();
@@ -22,6 +24,7 @@ public:
 	bool running();
 	void gameover();
 	SDL_Renderer* getRenderer() const;
+
 private:
 	Game();
 	static Game* instance;
