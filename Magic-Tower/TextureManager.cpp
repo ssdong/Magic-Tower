@@ -63,11 +63,11 @@ bool textureManager::load(std::string fileName, std::string id, SDL_Renderer* pR
 // Render static pictures
 void textureManager::draw(std::string id, 
 	                      int x, 
-						  int y, 
-						  int width,
-						  int height, 
+				int y, 
+				int width,
+				int height, 
 	                      SDL_Renderer* pRenderer, 
-						  SDL_RendererFlip flip) {
+				SDL_RendererFlip flip) {
     // Define two SDL_Rect struct
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
