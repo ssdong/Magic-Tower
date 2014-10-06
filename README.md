@@ -1,7 +1,7 @@
 Magic-Tower
 ===========
 
-This is a 2D RPG game implemented from scratch by using purely C++ 
+This is a 2D RPG game implemented from scratch using C++ 
 and the SDL library(Simple DirectMedia Layer). 
 
 ## More information
