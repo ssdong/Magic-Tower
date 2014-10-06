@@ -492,7 +492,7 @@ void textureManager::drawMessage(std::string messageType,
                                    while(SDL_PollEvent(&Event)){ }
                          }
                          else if(messageType == "weapon") {
-                             // TODO;
+                             // TODO
                          }
                          else {
                              // TODO; add more items
