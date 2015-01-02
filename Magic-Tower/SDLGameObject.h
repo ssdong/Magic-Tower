@@ -5,11 +5,20 @@
 #include <string>
 
 class LoaderParams;
+class Player;
 
 class SDLGameObject : public GameObject {
 public:
 	SDLGameObject();
-	
+	virtual ~SDLGameObject();
+	std::string getColor();
+	void setColor(std::string color);
+
+	virtual int getX();
+	virtual int getY();
+	virtual int getRow();
+	virtual int getFrame();
+	virtual void collide(Player* p);
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
@@ -20,13 +29,6 @@ public:
 	virtual void decreaseX();
 	virtual void decreaseY();
 	virtual void load(const LoaderParams* param);
-	void setColor(std::string color);
-	std::string getColor();
-	virtual ~SDLGameObject();
-	virtual int getX();
-	virtual int getY();
-	virtual int getRow();
-	virtual int getFrame();
 
 protected:
     int m_x;

@@ -15,6 +15,8 @@
 
 SDLGameObject::SDLGameObject():GameObject(){}
 
+SDLGameObject::~SDLGameObject() {}
+
 void SDLGameObject::load(const LoaderParams* param) {
 	m_x = param->getX();
 	m_y = param->getY();
@@ -35,7 +37,7 @@ void SDLGameObject::update() {}
 
 void SDLGameObject::clean() {}
 
-SDLGameObject::~SDLGameObject() {}
+void SDLGameObject::collide(Player* p) {}
 
 void SDLGameObject::setFrame(int newFrame) {}
 
