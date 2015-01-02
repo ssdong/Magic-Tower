@@ -22,48 +22,11 @@ void Floor::render() {
 			   (*j)->draw();
 		}
 	}
-	// Render enemies
-    for(std::vector<SDLGameObject*>::iterator i = enemies.begin(); i != enemies.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
+	// Render game elements
+	for(std::unordered_map<Position*, SDLGameObject*, PositionHash>::iterator i = elements.begin(); i != elements.end(); ++i) {
+		i->second->draw();
 	}
-	// Render doors
-	for(std::vector<SDLGameObject*>::iterator i = doors.begin(); i != doors.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
-	}
-	// Render keys
-	for(std::vector<SDLGameObject*>::iterator i = keys.begin(); i != keys.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
-	}
-	// Render jewels
-	for(std::vector<SDLGameObject*>::iterator i = jewels.begin(); i != jewels.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
-	}
-	// Render medicines
-	for(std::vector<SDLGameObject*>::iterator i = medicines.begin(); i != medicines.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
-	}
-	// Render weapons
-	for(std::vector<SDLGameObject*>::iterator i = weapons.begin(); i != weapons.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
-	}
-	// Render stairs
-	for(std::vector<SDLGameObject*>::iterator i = stairs.begin(); i != stairs.end(); ++i) {
-		if((*i) != nullptr) {
-		   (*i)->draw();
-		}
-	}
+   
 }
 
 void Floor::cleanUp() {
@@ -73,33 +36,9 @@ void Floor::cleanUp() {
 			delete(*j);
 		}
 	}
-	// Delete enemies
-	for(std::vector<SDLGameObject*>::iterator i = enemies.begin(); i != enemies.end(); ++i) {
-		delete(*i);
-	}
-	// Delete doors
-	for(std::vector<SDLGameObject*>::iterator i = doors.begin(); i != doors.end(); ++i) {
-		delete(*i);
-	}
-	// Delete jewels
-	for(std::vector<SDLGameObject*>::iterator i = jewels.begin(); i != jewels.end(); ++i) {
-		delete(*i);
-	}
-	// Delete keys
-	for(std::vector<SDLGameObject*>::iterator i = keys.begin(); i != keys.end(); ++i) {
-		delete(*i);
-	}
-	// Delete medicines
-	for(std::vector<SDLGameObject*>::iterator i = medicines.begin(); i != medicines.end(); ++i) {
-		delete(*i);
-	}
-	// Delete weapons
-	for(std::vector<SDLGameObject*>::iterator i = weapons.begin(); i != weapons.end(); ++i) {
-		delete(*i);
-	}
-	// Delete stairs
-	for(std::vector<SDLGameObject*>::iterator i = stairs.begin(); i != stairs.end(); ++i) {
-		delete(*i);
+	// Delete game elements
+	for(std::unordered_map<Position*, SDLGameObject*, PositionHash>::iterator i = elements.begin(); i != elements.end(); ++i) {
+		delete i->first;
+		delete i->second;
 	}
 }
-
