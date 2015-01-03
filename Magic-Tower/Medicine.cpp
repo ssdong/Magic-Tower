@@ -9,6 +9,8 @@
 */
 #include "Medicine.h"
 #include "SDL.h"
+#include "Game.h"
+#include "TextureManager.h"
 
 Medicine::Medicine():SDLGameObject(){};
 
@@ -22,6 +24,11 @@ void Medicine::draw() { SDLGameObject::draw();}
 void Medicine::update() {}
 
 void Medicine::clean() {}
+
+void Medicine::collide(SDLGameObject* player) {
+	 Position p(player->getX() / 32, player->getY() / 32);
+	 textureManager::Instance()->drawMessage("medicine", p, TheGame::Instance()->getRenderer(),TheGame::Instance()->getCurrentFloor(),player, TheGame::Instance()->getFont());
+}
 
 void Medicine::setFrame(int newFrame) { m_currentFrame = newFrame;  }
 
