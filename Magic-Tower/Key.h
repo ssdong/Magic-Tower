@@ -20,6 +20,7 @@ public:
 	void clean();
 	void setFrame(int newFrame);
 	void setRow(int newRow);
+	void collide(SDLGameObject* player);
 };
 
 class KeyCreator : public BaseCreator {

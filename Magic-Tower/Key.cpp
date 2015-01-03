@@ -9,6 +9,8 @@
 */
 #include "Key.h"
 #include "SDL.h"
+#include "Game.h"
+#include "TextureManager.h"
 
 Key::Key():SDLGameObject(){};
 
@@ -20,6 +22,11 @@ void Key::load(const LoaderParams* param) { SDLGameObject::load(param);}
 void Key::draw() { SDLGameObject::draw();}
 
 void Key::update() {}
+
+void Key::collide(SDLGameObject* player) {
+	Position p(player->getX() / 32, player->getY() / 32);
+	textureManager::Instance()->drawMessage("key", p, TheGame::Instance()->getRenderer(),TheGame::Instance()->getCurrentFloor(),player, TheGame::Instance()->getFont());
+}
 
 void Key::clean() {}
 
