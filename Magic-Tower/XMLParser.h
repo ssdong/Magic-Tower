@@ -13,14 +13,14 @@ class Parser {
 public:
 	static bool parseState( const char* stateFile, 
 		                    std::string stateID,
-                            std::unordered_map<Position, SDLGameObject*, PositionHash> *pObjects,
-						    std::vector<std::vector<SDLGameObject*> > *mObjects );
+                            std::unordered_map<Position, SDLGameObject*, PositionHash>& pObjects,
+						    std::vector<std::vector<SDLGameObject*> >& mObjects );
 
 private:
 	static void parseObjects( TiXmlElement* pStateRoot, 
 		                      std::string stateID,
-                              std::unordered_map<Position, SDLGameObject*, PositionHash> *pObjects,
-                              std::vector<std::vector<SDLGameObject*> > *mObjects );
+                              std::unordered_map<Position, SDLGameObject*, PositionHash>& pObjects,
+                              std::vector<std::vector<SDLGameObject*> >& mObjects );
 };
 
 

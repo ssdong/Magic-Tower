@@ -17,13 +17,12 @@
 #include "Enemy.h"
 #include "Weapon.h"
 #include "Position.h"
-#include "PositionHash.h"
 using namespace std;
 
 bool Parser::parseState(const char* stateFile, 
 	                    std::string stateID,
-                        std::unordered_map<Position, SDLGameObject*, PositionHash> *pObjects,
-						std::vector<std::vector<SDLGameObject*> > *mObjects) {
+                        std::unordered_map<Position, SDLGameObject*, PositionHash>& pObjects,
+						std::vector<std::vector<SDLGameObject*> >& mObjects) {
      // First, Create XML document
 	 TiXmlDocument xmlDoc;
 
@@ -49,10 +48,10 @@ bool Parser::parseState(const char* stateFile,
 
 	// Parse the nodes
 	 if(stateID == "Map" || stateID == "Background" ) {
-	    parseObjects(anotherRoot,stateID,nullptr,mObjects);
+	    parseObjects(anotherRoot,stateID,pObjects,mObjects);
 	 }
 	 else {
-		parseObjects(anotherRoot,stateID,pObjects,nullptr);
+		parseObjects(anotherRoot,stateID,pObjects,mObjects);
 	 }
 	 return true;
 }
@@ -60,8 +59,8 @@ bool Parser::parseState(const char* stateFile,
 
 void Parser::parseObjects(TiXmlElement* pStateRoot,
 	                      std::string stateID,
-                          std::unordered_map<Position, SDLGameObject*, PositionHash> *pObjects,
-						  std::vector<std::vector<SDLGameObject*> > *mObjects) {
+                          std::unordered_map<Position, SDLGameObject*, PositionHash>& pObjects,
+						  std::vector<std::vector<SDLGameObject*> >& mObjects) {
 	if(stateID == "Map" || stateID == "Background") {
         int i = 0;
 		for(TiXmlElement* e = pStateRoot->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
@@ -98,7 +97,7 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 					temp.push_back(instance);
 			}
 			++i;
-			mObjects->push_back(temp);
+			mObjects.push_back(temp);
 		}
 	}
 	else {
@@ -172,7 +171,7 @@ void Parser::parseObjects(TiXmlElement* pStateRoot,
 			 }
 		 }
 		 delete newLoader;
-		 pObjects->insert(make_pair<Position*, SDLGameObject*>(new Position(m_x, m_y), instance));
+		 pObjects[Position(m_x, m_y)] = instance;
 	   }
 	}
 }
