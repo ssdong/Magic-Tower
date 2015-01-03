@@ -23,7 +23,12 @@ public:
 	void clean();
 	bool running();
 	void gameover();
-	SDL_Renderer* getRenderer() const;
+	void increaseFloor();
+	void decreaseFloor();
+	int floorNumber();
+	Floor* getCurrentFloor();
+	SDL_Renderer* getRenderer();
+	TTF_Font* getFont();
 
 private:
 	Game();
