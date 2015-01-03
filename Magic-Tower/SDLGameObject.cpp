@@ -37,7 +37,7 @@ void SDLGameObject::update() {}
 
 void SDLGameObject::clean() {}
 
-void SDLGameObject::collide(Player* p) {}
+void SDLGameObject::collide(SDLGameObject* p) {}
 
 void SDLGameObject::setFrame(int newFrame) {}
 

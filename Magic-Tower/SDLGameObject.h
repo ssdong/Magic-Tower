@@ -18,7 +18,7 @@ public:
 	virtual int getY();
 	virtual int getRow();
 	virtual int getFrame();
-	virtual void collide(Player* p);
+	virtual void collide(SDLGameObject* p);
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
