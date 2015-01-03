@@ -13,7 +13,7 @@ class SDLGameObject;
 class Floor {
 
 public:
-	std::unordered_map<Position*, SDLGameObject*, PositionHash> elements; 
+	std::unordered_map<Position, SDLGameObject*, PositionHash> elements; 
 	std::vector<std::vector<SDLGameObject*> > map;// Map
 
 public:

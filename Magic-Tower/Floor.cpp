@@ -23,7 +23,7 @@ void Floor::render() {
 		}
 	}
 	// Render game elements
-	for(std::unordered_map<Position*, SDLGameObject*, PositionHash>::iterator i = elements.begin(); i != elements.end(); ++i) {
+	for(std::unordered_map<Position, SDLGameObject*, PositionHash>::iterator i = elements.begin(); i != elements.end(); ++i) {
 		i->second->draw();
 	}
    
@@ -37,7 +37,7 @@ void Floor::cleanUp() {
 		}
 	}
 	// Delete game elements
-	for(std::unordered_map<Position*, SDLGameObject*, PositionHash>::iterator i = elements.begin(); i != elements.end(); ++i) {
+	for(std::unordered_map<Position, SDLGameObject*, PositionHash>::iterator i = elements.begin(); i != elements.end(); ++i) {
 		delete i->first;
 		delete i->second;
 	}
