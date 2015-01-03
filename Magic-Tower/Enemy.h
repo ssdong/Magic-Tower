@@ -5,6 +5,7 @@
 #include "GameObjectFactory.h"
 
 class LoaderParams;
+class Player;
 
 class Enemy : public SDLGameObject {
 private:
@@ -21,6 +22,9 @@ public:
 	void draw();
     void update();
 	void clean();
+	bool collideHelper(int &playerHP, int &enemyHP, int P_E_damage, int E_P_damage,unsigned int& lastTime);
+	bool canFight(Player* player);
+	void collide(SDLGameObject* player);
 	void setFrame(int newFrame);
 	void setRow(int newRow);
 	void setHP(int hp);
