@@ -18,6 +18,7 @@ public:
 	void draw();
     void update();
 	void clean();
+	void collide(SDLGameObject* player);
 	void setFrame(int newFrame);
 	void setRow(int newRow);
 };

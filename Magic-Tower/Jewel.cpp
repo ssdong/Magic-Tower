@@ -9,6 +9,8 @@
 */
 #include "Jewel.h"
 #include "SDL.h"
+#include "Game.h"
+#include "TextureManager.h"
 
 Jewel::Jewel():SDLGameObject(){};
 
@@ -22,6 +24,11 @@ void Jewel::draw() { SDLGameObject::draw(); }
 void Jewel::update() {}
 
 void Jewel::clean() {}
+
+void Jewel::collide(SDLGameObject* player) {
+	 Position p(player->getX(), player->getY());
+	 textureManager::Instance()->drawMessage("jewel", p, TheGame::Instance()->getRenderer(),TheGame::Instance()->getCurrentFloor(),player, TheGame::Instance()->getFont());
+}
 
 void Jewel::setFrame(int newFrame) { m_currentFrame = newFrame;  }
 
