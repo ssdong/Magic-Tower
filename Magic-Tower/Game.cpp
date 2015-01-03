@@ -166,30 +166,23 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 	BaseCreator* stairCreator = new StairCreator();
 	GameObjectFactory::Instance()->registerType("stair", stairCreator);
 
-	// TODO; This part needs optimization
 	// Initialize floor 
 	Floor* Floor1 = new Floor();
 	Floor* Floor2 = new Floor();
 
 	// Start parsing XML file
-	// Floor1
-	Parser::parseState("./data/Floor1.xml","Enemy",&Floor1->elements, nullptr);
-	Parser::parseState("./data/Floor1.xml","Medicine",&Floor1->elements, nullptr); 
-	Parser::parseState("./data/Floor1.xml","Weapon",&Floor1->elements,nullptr);
-	Parser::parseState("./data/Floor1.xml","Jewel",&Floor1->elements, nullptr); 
-	Parser::parseState("./data/Floor1.xml","Key",&Floor1->elements, nullptr); 
-	Parser::parseState("./data/Floor1.xml","Door",&Floor1->elements, nullptr);
-	Parser::parseState("./data/Floor1.xml","Stair",&Floor1->elements, nullptr);
-	Parser::parseState("./data/Floor1.xml","Map",nullptr, &Floor1->map);
+	std::string temp[] = {"Enemy","Medicine","Weapon","Jewel", "Key", "Door", "Stair", "Map" };
+	size_t len = sizeof(temp) / sizeof(temp[0]);
+	
+    // Floor1
+	for(size_t i = 0; i < len; i++) {
+		Parser::parseState("./data/Floor1.xml", temp[i], Floor1->elements, Floor1->map);
+	}
 
 	// Floor2
-	Parser::parseState("./data/Floor2.xml","Enemy",&Floor2->elements, nullptr);
-	Parser::parseState("./data/Floor2.xml","Medicine",&Floor2->elements, nullptr); 
-	Parser::parseState("./data/Floor2.xml","Weapon",&Floor2->elements,nullptr);
-	Parser::parseState("./data/Floor2.xml","Jewel",&Floor2->elements, nullptr); 
-	Parser::parseState("./data/Floor2.xml","Door",&Floor2->elements, nullptr);
-	Parser::parseState("./data/Floor2.xml","Stair",&Floor2->elements, nullptr);
-	Parser::parseState("./data/Floor2.xml","Map",nullptr, &Floor2->map);
+	for(size_t i = 0; i < len; i++) {
+		Parser::parseState("./data/Floor2.xml", temp[i], Floor2->elements, Floor2->map);
+	}
 
 	// Assign 
 	// floors is a map(not array)
@@ -279,7 +272,6 @@ void Game::update(){
 }
 
 
-
 void Game::handleEvents(){ 
 	SDL_Event Event;
 	// Events are waiting in a queue! 
@@ -288,531 +280,70 @@ void Game::handleEvents(){
 			Running = false;
 		}
 		else if(Event.type == SDL_KEYDOWN) {
-			int position;
-			char stairType;
 			switch(Event.key.keysym.sym) { // Get the key type
 			// If press up 
 			case SDLK_UP :
 				// Reset frames to make player face up
 				player->setRow(3);
 				player->setFrame(0);
-				
-				// If we have a key in the north...
-				if(Collision::Instance()->detectKey(&(floors[currentFloor]->keys),player,'N',32,position) == false) {
-					// If we have a jewel in the north...
-				   if(Collision::Instance()->detectJewel(&(floors[currentFloor]->jewels),player,'N',32,position) == false) {
-					   // If we have a medicine in the north...
-					   if(Collision::Instance()->detectMedicine(&(floors[currentFloor]->medicines),player,'N',32,position) == false) {
-						   // If we have a door in the north...
-						   if(Collision::Instance()->detectDoorExist(&(floors[currentFloor]->doors),player,'N',32,position) == false) {
-							   // If we have an enemy in the north...
-							   if(Collision::Instance()->detectEnemyExist(&(floors[currentFloor]->enemies),player,'N',32,position) == false) {
-								   // If we have wall in the north...
-								  if(Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'N',32) == false) {
-									  // If we have stairs in the north...
-									  if(Collision::Instance()->detectStair(&(floors[currentFloor]->stairs), player, 'N',32,stairType) == false) {
-									    if(player->getY() >= 64) {
-                                            player->decreaseY();
-									    }
-									  }
-									  else {
-										  if(stairType == 'U'){ // If trying to get upstairs
-										     ++currentFloor;
-										     // Set Player coordinate
-											 std::vector<SDLGameObject*>::iterator i;
-										     for(i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'D') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											 textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-										  else {
-											--currentFloor;
-											// Set Player coordinate
-											std::vector<SDLGameObject*>::iterator i ;
-											for(i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'U') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-									  }
-								  }
-							   }
-							   else {  // Now an enemy exists....  
-								   if(Collision::Instance()->detectCanFightWithEnemy(&(floors[currentFloor]->enemies),player,'N',32,position) == false) {
-									   // Unable to defeat...
-							       }
-								   else {
-									   // Yes! Can defeat!
-									   int PlayerHP = dynamic_cast<Player*>(player)->getHP();
-	                                   int EnemyHP = dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getHP();
-
-									   // Calculate player to enemy's damage and vice versa
-		                               int P_E_damage = (100.0 / (100 + dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getDefence())) * dynamic_cast<Player*>(player)->getAttack();
-		                               int E_P_damage = (100.0 / (100 + dynamic_cast<Player*>(player)->getDefence())) * dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getAttack();
-
-									   // Start fighting!
-									   unsigned int lastTime = SDL_GetTicks();
-									   while(true) {
-										   if(Collision::Instance()->fight( &(floors[currentFloor]->enemies),
-											                                player,'N',32,position,
-																			renderer,font,PlayerHP,
-																			EnemyHP,P_E_damage,
-																			E_P_damage,lastTime ) == true) {
-											   // Print the winning message
-											   textureManager::Instance()->drawMessage( "win",position, 
-												                                        &(floors[currentFloor]->enemies),
-																						renderer,&background,
-																						floors[currentFloor],
-																						player,font );
-											   // Rest player status
-											   dynamic_cast<Player*>(player)->setHP(PlayerHP - dynamic_cast<Player*>(player)->getHP());
-											   dynamic_cast<Player*>(player)->setGold(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getGold());
-											   dynamic_cast<Player*>(player)->setExperience(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getExperience());
-											   delete (floors[currentFloor]->enemies)[position];
-											   (floors[currentFloor]->enemies)[position] = nullptr;
-											   break;
-										   }
-										   else {
-											   // Print the fighting message
-                                               textureManager::Instance()->drawMessage( "fight",position,
-												                                        &(floors[currentFloor]->enemies),
-																						renderer,&background,
-																						floors[currentFloor],
-																						player,font,PlayerHP,EnemyHP );
-										   }
-									   }
-								   }
-							   }
-						   }
-						   else { // Now we have a door at front...
-							   while(!Collision::Instance()->detectDoor(&(floors[currentFloor]->doors),player,'N',32,position)) {
-								   render();
-							   }
-							   render();
-						   }
-					   }
-					   else { // Now we have a medicine at front...
-						   textureManager::Instance()->drawMessage( "medicine",position,
-							                                        &(floors[currentFloor]->medicines),
-																	renderer,&background,
-																	floors[currentFloor],
-																	player,font );
-						   // Print Medicine message here
-					   }
-				   }
-				   else {  // Now we have a jewel at front...
-					   textureManager::Instance()->drawMessage( "jewel",position,
-						                                        &(floors[currentFloor]->jewels),
-																renderer,&background,
-																floors[currentFloor],
-																player,font );
-					   // Print Jewel message here
-				   }
+				// If we have wall in the north...
+				if(!Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'N',32)) {
+					break;
 				}
-				else { // Now we have a key at front...
-					textureManager::Instance()->drawMessage( "key",position,
-						                                     &(floors[currentFloor]->keys),
-															 renderer,&background,
-															 floors[currentFloor],
-															 player,font );
-					// Print Key message here
+				Position p(player->getX() / 32, player->getY() / 32 - 1);
+				if(floors[currentFloor]->elements.find(p) != floors[currentFloor]->elements.end()) {
+					floors[currentFloor]->elements[p]->collide(player);
+				}
+				else {
+					if(player->getY() >= 64) player->decreaseY();
 				}
 				break;
 			case SDLK_DOWN:
 				// Reset frames to make player face down
 				player->setRow(0);
 				player->setFrame(0);
-				// If we have a key in the south...
-				if(Collision::Instance()->detectKey(&(floors[currentFloor]->keys), player,'S',32,position) == false) {
-					// If we have a jewel in the south...
-				   if(Collision::Instance()->detectJewel(&(floors[currentFloor]->jewels),player,'S',32,position) == false) {
-					   // If we have a medicine in the south...
-					   if(Collision::Instance()->detectMedicine(&(floors[currentFloor]->medicines),player,'S',32,position) == false) {
-						   // If we have a door in the south...
-						   if(Collision::Instance()->detectDoorExist(&(floors[currentFloor]->doors),player,'S',32,position) == false) {
-							   // If we have an enemy in the south...
-							   if(Collision::Instance()->detectEnemyExist(&(floors[currentFloor]->enemies),player,'S',32,position) == false) {
-								   // If we have wall in the south...
-								   if(Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'S',32) == false) {
-									   // If we have stairs in the south...
-									   if(Collision::Instance()->detectStair(&(floors[currentFloor]->stairs), player, 'S',32,stairType) == false) {
-									     if(player->getY() <= 320) {
-				                            player->increaseY();
-									     }
-									   }
-									   else {
-										   if(stairType == 'U'){ // If trying to get upstairs
-										     ++currentFloor;
-										     // Set Player coordinate
-											 std::vector<SDLGameObject*>::iterator i;
-										     for( i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'D') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											 textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-										  else { // Downstairs..
-											--currentFloor;
-											std::vector<SDLGameObject*>::iterator i;
-											for( i= floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'U') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-									   }
-								   }
-							   }
-							   else { // Caculate if we can defeat the enemy
-								   if(Collision::Instance()->detectCanFightWithEnemy(&(floors[currentFloor]->enemies),player,'S',32,position) == false) {
-									    // Unable to defeat...
-								    }
-								   else { 
-									   // Yes! Can defeat!
-									   int PlayerHP = dynamic_cast<Player*>(player)->getHP();
-	                                   int EnemyHP = dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getHP();
-
-									   // Calculate player to enemy's damage and vice versa
-		                               int P_E_damage = (100.0 / (100 + dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getDefence())) * dynamic_cast<Player*>(player)->getAttack();
-		                               int E_P_damage = (100.0 / (100 + dynamic_cast<Player*>(player)->getDefence())) * dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getAttack();
-
-									   // Start fighting!
-									   unsigned int lastTime = SDL_GetTicks();
-									   while(true) {
-										   if(Collision::Instance()->fight( &(floors[currentFloor]->enemies),
-											                                player,'S',32,position,
-																			renderer,font,PlayerHP,
-																			EnemyHP,P_E_damage,
-																			E_P_damage,lastTime ) == true) {
-											   // Print the winning message
-                                               textureManager::Instance()->drawMessage( "win",position,
-												                                        &(floors[currentFloor]->enemies),
-																						renderer,&background,
-																						floors[currentFloor],
-																						player,font );
-											   // Rest player status
-											   dynamic_cast<Player*>(player)->setHP(PlayerHP - dynamic_cast<Player*>(player)->getHP());
-											   dynamic_cast<Player*>(player)->setGold(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getGold());
-											   dynamic_cast<Player*>(player)->setExperience(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getExperience());
-											   delete (floors[currentFloor]->enemies[position]);
-											   floors[currentFloor]->enemies[position] = nullptr;
-											   break;
-										   }
-										   else {
-											   // Print the fighting message
-                                               textureManager::Instance()->drawMessage( "fight",position,
-												                                        &(floors[currentFloor]->enemies),
-																						renderer,&background,
-																						floors[currentFloor],
-																						player,font,
-																						PlayerHP,EnemyHP );
-										   }
-									   }
-								   }
-							   }
-						   }
-						   else { // Now we have a door at front...
-							   while(!Collision::Instance()->detectDoor(&(floors[currentFloor]->doors),player,'S',32,position)) {
-								   render();
-							   }
-							   render();
-						   }
-					   }
-					   else  { // Now we have a medicine at front...
-						   // Print Medicine message here
-						   textureManager::Instance()->drawMessage( "medicine",position,
-							                                        &(floors[currentFloor]->medicines),
-																	renderer,&background,
-																	floors[currentFloor],
-																	player,font);
-					   }
-				   }
-				   else { // Now we have a jewel at front...
-					   // Print Jewel message here
-					   textureManager::Instance()->drawMessage( "jewel",position,
-						                                        &(floors[currentFloor]->jewels),
-																renderer,&background,
-																floors[currentFloor],
-																player,font );
-				   }
+				// If we have wall in the north...
+				if(!Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'N',32)) {
+					break;
 				}
-				else { // Now we have a key at front...
-					// Print Key message here
-					textureManager::Instance()->drawMessage( "key",position,
-						                                     &(floors[currentFloor]->keys),
-															 renderer,&background,
-															 floors[currentFloor],
-															 player,font );
+				Position p(player->getX() / 32, player->getY() / 32 + 1);
+				if(floors[currentFloor]->elements.find(p) != floors[currentFloor]->elements.end()) {
+					floors[currentFloor]->elements[p]->collide(player);
+				}
+				else {
+					if(player->getY() <= 320) player->increaseY();
 				}
 				break;
 			case SDLK_LEFT:
 				// Reset frames to make player face left
 				player->setRow(1);
 				player->setFrame(0);
-				// If we have a key in the west...
-				if(Collision::Instance()->detectKey( &(floors[currentFloor]->keys), player,'W',32,position) == false) {
-					// If we have a jewel in the west...
-				   if(Collision::Instance()->detectJewel(&(floors[currentFloor]->jewels),player,'W',32,position) == false) {
-					   // If we have a medicine in the west...
-					   if(Collision::Instance()->detectMedicine(&(floors[currentFloor]->medicines),player,'W',32,position) == false) {
-						   // If we have a door in the west...
-						   if(Collision::Instance()->detectDoorExist(&(floors[currentFloor]->doors),player,'W',32,position) == false) {
-							   // If we have a enemy in the west...
-							   if(Collision::Instance()->detectEnemyExist(&(floors[currentFloor]->enemies),player,'W',32,position) == false) {
-								   // If we have wall in the west...
-								   if(Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'W',32) == false) {
-									   // If we have stairs in the west...
-									   if(Collision::Instance()->detectStair(&(floors[currentFloor]->stairs), player, 'W',32,stairType) == false) {
-									     if(player->getX() >= 224) {
-				                            player->decreaseX();
-									     }
-									   }
-									   else {
-										  if(stairType == 'U'){ // If trying to get upstairs
-										     ++currentFloor;
-										     // Set Player coordinate
-											 std::vector<SDLGameObject*>::iterator i;
-										     for(i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'D') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											 textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-										  else { // Downstairs
-											--currentFloor;
-											std::vector<SDLGameObject*>::iterator i;
-											for(i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'U') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-									   }
-								   }
-							   }
-							   else { // Caculate if we can defeat the enemy
-								   if(Collision::Instance()->detectCanFightWithEnemy(&(floors[currentFloor]->enemies),player,'W',32,position) == false) {
-									   // Unable to defeat
-								   }
-								   else {
-									   // Yes! Can defeat!
-									   int PlayerHP = dynamic_cast<Player*>(player)->getHP();
-	                                   int EnemyHP = dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getHP();
-
-									   // Calculate player to enemy's damage and vice versa
-		                               int P_E_damage = (100.0 / (100 + dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getDefence())) * dynamic_cast<Player*>(player)->getAttack();
-		                               int E_P_damage = (100.0 / (100 + dynamic_cast<Player*>(player)->getDefence())) * dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getAttack();
-
-									   // Start fighting!
-									   unsigned int lastTime = SDL_GetTicks();
-									   while(true) {
-										   if(Collision::Instance()->fight( &(floors[currentFloor]->enemies),
-											                                player,'W',32,position,
-																			renderer,font,PlayerHP,
-																			EnemyHP,P_E_damage,
-																			E_P_damage,lastTime ) == true) {
-											   // Print the winning message
-                                               textureManager::Instance()->drawMessage( "win",position,
-												                                        &(floors[currentFloor]->enemies),
-																					    renderer,&background,
-																						floors[currentFloor],
-																					    player,font );
-											   // Rest player status
-											   dynamic_cast<Player*>(player)->setHP(PlayerHP - dynamic_cast<Player*>(player)->getHP());
-											   dynamic_cast<Player*>(player)->setGold(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getGold());
-											   dynamic_cast<Player*>(player)->setExperience(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getExperience());
-											   delete (floors[currentFloor]->enemies[position]);
-											   floors[currentFloor]->enemies[position] = nullptr;
-											   break;
-										   }
-										   else {
-											   // Print the fighting message
-                                               textureManager::Instance()->drawMessage( "fight",position,
-												                                        &(floors[currentFloor]->enemies),
-																					    renderer,&background,
-																						floors[currentFloor],
-																					    player,font,PlayerHP,EnemyHP );
-										   }
-									   }
-								   }
-							   }
-						   }
-						   else { // Now we have a door at front...
-							   while(!Collision::Instance()->detectDoor(&(floors[currentFloor]->doors),player,'W',32,position)) {
-								   render();
-							   }
-							   render();
-						   }
-					   }
-					   else { // Now we have a medicine at front...
-						   // Print Medicine Message here
-						   textureManager::Instance()->drawMessage( "medicine",position,
-							                                        &(floors[currentFloor]->medicines),
-																    renderer,&background,
-																	floors[currentFloor],
-																    player,font );
-					   }
-				   }
-				   else { // Now we have a jewel at front...
-					   // Print Jewel Message here
-					   textureManager::Instance()->drawMessage( "jewel",position,
-						                                        &(floors[currentFloor]->jewels),
-															    renderer,&background,
-																floors[currentFloor],
-															    player,font );
-				   }
+				// If we have wall in the north...
+				if(!Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'N',32)) {
+					break;
 				}
-				else { // Now we have a key at front...
-					// Print Key Message here
-					textureManager::Instance()->drawMessage( "key",position,
-						                                     &(floors[currentFloor]->keys),
-															 renderer,&background,
-															 floors[currentFloor],
-															 player,font );
+				Position p(player->getX() / 32 - 1, player->getY() / 32);
+				if(floors[currentFloor]->elements.find(p) != floors[currentFloor]->elements.end()) {
+					floors[currentFloor]->elements[p]->collide(player);
+				}
+				else {
+					if(player->getX() >= 224) player->decreaseX();
 				}
 				break;
 			case SDLK_RIGHT:
 				// Reset frames to make player face right
 				player->setRow(2);
 				player->setFrame(0);
-				// If we have a key in the east...
-				if(Collision::Instance()->detectKey(&(floors[currentFloor]->keys), player,'E',32,position) == false) {
-					// If we have a jewel in the east...
-				   if(Collision::Instance()->detectJewel(&(floors[currentFloor]->jewels),player,'E',32,position) == false) {
-					   // If we have a medicine in the east...
-					   if(Collision::Instance()->detectMedicine(&(floors[currentFloor]->medicines),player,'E',32,position) == false) {
-						   // If we have a door in the east...
-						   if(Collision::Instance()->detectDoorExist(&(floors[currentFloor]->doors),player,'E',32,position) == false) {
-							   // If we have an enemy in the east...
-							   if(Collision::Instance()->detectEnemyExist(&(floors[currentFloor]->enemies),player,'E',32,position) == false) {
-								   // If we have wall in the east...
-								   if(Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'E',32) == false) {
-									   // If we have stairs in the east...
-									   if(Collision::Instance()->detectStair(&(floors[currentFloor]->stairs), player, 'E',32,stairType) == false) {
-									     if(player->getX() <= 480) {
-				                            player->increaseX();
-									     }
-									   }
-									   else {
-										  if(stairType == 'U'){ // If trying to go upstairs...
-										     ++currentFloor;
-										     // Set Player coordinate
-											 std::vector<SDLGameObject*>::iterator i;
-										     for(i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'D') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											 textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-										  else { // Downstairs
-											--currentFloor;
-											std::vector<SDLGameObject*>::iterator i;
-											for(i = floors[currentFloor]->stairs.begin(); i != floors[currentFloor]->stairs.end(); i++) {
-											     if(dynamic_cast<Stair*>(*i)->type == 'U') {
-												     dynamic_cast<Player*>(player)->setX((*i)->getX());
-												     dynamic_cast<Player*>(player)->setY((*i)->getY());
-											     }
-										     }
-											 textureManager::Instance()->changeFloor(renderer,font,currentFloor);
-										  }
-									   }
-								   }
-							   }
-							   else { // Calculate if we can defeat the enemy
-								   if(Collision::Instance()->detectCanFightWithEnemy(&(floors[currentFloor]->enemies),player,'E',32,position) == false) {
-									   // Unable to defeat
-								   }
-								   else {
-									   // Yes! Can defeat!
-									   int PlayerHP = dynamic_cast<Player*>(player)->getHP();
-	                                   int EnemyHP = dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getHP();
-
-									   // Calculate player to enemy's damage and vice versa
-		                               int P_E_damage = (100.0 / (100 + dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getDefence())) * dynamic_cast<Player*>(player)->getAttack();
-		                               int E_P_damage = (100.0 / (100 + dynamic_cast<Player*>(player)->getDefence())) * dynamic_cast<Enemy*>((floors[currentFloor]->enemies)[position])->getAttack();
-
-									   // Start fighting!
-									   unsigned int lastTime = SDL_GetTicks();
-									   while(true) {
-										   if(Collision::Instance()->fight( &(floors[currentFloor]->enemies),
-											                                player,'E',32,position,
-																			renderer,font,PlayerHP,
-																		    EnemyHP,P_E_damage,
-																			E_P_damage,lastTime ) == true) {
-											   // Print the winning message
-                                               textureManager::Instance()->drawMessage( "win",position,
-												                                        &(floors[currentFloor]->enemies),
-																					    renderer,&background,
-																						floors[currentFloor],
-																					    player,font );
-											   // Rest player status
-											   dynamic_cast<Player*>(player)->setHP(PlayerHP - dynamic_cast<Player*>(player)->getHP());
-											   dynamic_cast<Player*>(player)->setGold(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getGold());
-											   dynamic_cast<Player*>(player)->setExperience(dynamic_cast<Enemy*>(floors[currentFloor]->enemies[position])->getExperience());
-											   delete (floors[currentFloor]->enemies[position]);
-											   floors[currentFloor]->enemies[position] = nullptr;
-											   break;
-										   }
-										   else {
-											   // Print the fighting message
-                                               textureManager::Instance()->drawMessage( "fight",position,
-												                                        &(floors[currentFloor]->enemies),
-																					    renderer,&background,
-																						floors[currentFloor],
-																					    player,font,PlayerHP,EnemyHP );
-										   }
-									   }
-								   }
-							   }
-						   }
-						   else { // Now we have a door at front..
-							   while(!Collision::Instance()->detectDoor(&(floors[currentFloor]->doors),player,'E',32,position)) {
-								   render();
-							   }
-							   render();
-						   }
-					   }
-					   else {  // Now we have a medicine at front..
-						   // Print Medicine message here
-						   textureManager::Instance()->drawMessage( "medicine",position,
-							                                        &(floors[currentFloor]->medicines),
-							                                        renderer,&background,
-																    floors[currentFloor],
-																	player,font );
-					   }
-				   }
-				   else {  // Now we have a jewel at front..
-					   // Print Jewel message here
-					   textureManager::Instance()->drawMessage( "jewel",position,
-						                                        &(floors[currentFloor]->jewels),
-															    renderer,&background,
-															    floors[currentFloor],
-																player,font );
-				   }
+				// If we have wall in the north...
+				if(!Collision::Instance()->detectWall(&(floors[currentFloor]->map),player,'N',32)) {
+					break;
 				}
-				else { // Now we have a key at front..
-					// Print Key message here
-					textureManager::Instance()->drawMessage( "key",position,
-						                                     &(floors[currentFloor]->keys),
-															 renderer,&background,
-															 floors[currentFloor],
-															 player,font );
+				Position p(player->getX() / 32 + 1, player->getY() / 32 - 1);
+				if(floors[currentFloor]->elements.find(p) != floors[currentFloor]->elements.end()) {
+					floors[currentFloor]->elements[p]->collide(player);
+				}
+				else {
+					if(player->getX() <= 480) player->increaseX();
 				}
 				break;
 			}
@@ -847,6 +378,26 @@ bool Game::running() { return Running;}
 void Game::gameover() { Running = false;}
 
 // This is useful while rendering in other places e.g textureManager
-SDL_Renderer* Game::getRenderer() const{
+SDL_Renderer* Game::getRenderer(){
 	return renderer;
+}
+
+Floor* Game::getCurrentFloor(){
+	return floors[currentFloor];
+}
+
+TTF_Font* Game::getFont() {
+	return font;
+}
+
+void Game::increaseFloor() {
+	 ++currentFloor;
+}
+
+void Game::decreaseFloor() {
+	--currentFloor;
+}
+
+int Game::floorNumber() {
+	return currentFloor;
 }
