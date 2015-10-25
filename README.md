@@ -6,5 +6,5 @@ and the SDL library(Simple DirectMedia Layer).
 
 ## More information
 
-Please check out at (http://csclub.uwaterloo.ca/~s2dong)
+Please check out at (http://csclub.uwaterloo.ca/~s2dong/project/game.html)
 
