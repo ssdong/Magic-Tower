@@ -6,5 +6,5 @@ and the SDL library(Simple DirectMedia Layer).
 
 ## More information
 
-Please check out at (http://ssdong.github.io/project/game.html)
+Please check out at (https://www.youtube.com/watch?v=cUJJ_eq0fB0)
 
